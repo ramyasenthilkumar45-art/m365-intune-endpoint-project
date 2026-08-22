@@ -22,5 +22,4 @@ A comprehensive enterprise lab environment built to demonstrate hands-on experti
 * **Resolution:** Navigated to **Entra ID** > **Properties** > **Manage Security defaults**, set to **Disabled**, and selected *Using Conditional Access*.
 * **Verification:** Policy `CAP - Enforce MFA for Remote Workers` created successfully.
 
-![Security Defaults Conflict Error](01a-security-defaults-error.png)
 ![Conditional Access Policy Configured](01-conditional-access.png)
