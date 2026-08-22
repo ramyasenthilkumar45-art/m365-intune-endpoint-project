@@ -57,3 +57,21 @@ A comprehensive enterprise lab environment built to demonstrate hands-on experti
 <img src="02-intune-compliance-policy.png" alt="Intune Windows Compliance Policy" width="750" />
 
 <br>
+
+### 🛠️ Module 2 Troubleshooting Log
+
+#### Issue 02: Intune Admin Center 503 Gateway Timeout (`DQCancelledOnRequestTimeout`)
+* **Symptom:** Portal threw error `Error code 503 / DQCancelledOnRequestTimeout` when attempting to load the Windows 10/11 Compliance Policy creation blade.
+* **Root Cause:** Session token expiration or temporary backend microservice timeout in the Intune admin console (`Microsoft_Intune_DeviceSettings`).
+* **Resolution Path:**
+  1. Closed the failed policy blade and performed a hard browser refresh (`Ctrl + F5`) to clear cached session state.
+  2. Relaunched the portal session in an InPrivate window to re-authenticate Entra ID token context.
+  3. Successfully initialized the policy creation blade.
+
+#### Issue 03: Disabled Dependent Policy Settings in Intune Compliance Configuration
+* **Symptom:** The `Real-time protection` toggle in the Microsoft Defender compliance configuration panel was grayed out and unselectable.
+* **Root Cause:** Microsoft Intune enforces parent-child setting dependencies. Sub-features under Defender require the main engine policy to be explicitly enabled first.
+* **Resolution Path:**
+  1. Set **Microsoft Defender Antimalware** to **Require**.
+  2. Verified that **Real-time protection** and **Security intelligence up-to-date** toggles unlocked immediately.
+  3. Enforced all child rules and successfully saved `POL - Windows 11 Security Baseline`.
