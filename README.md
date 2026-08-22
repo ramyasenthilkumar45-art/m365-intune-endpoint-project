@@ -58,18 +58,7 @@ A comprehensive enterprise lab environment built to demonstrate hands-on experti
 
 <br>
 
-### Step 2: Application Protection Policy (MAM)
-* **Policy Name:** `MAM - Windows Corporate App Protection`
-* **Target Apps:** Microsoft Teams, Outlook, OneDrive
-* **Enforced Controls:** Block data leakage (Prevent Android/Cloud backup, restrict org data transfers to Policy Managed Apps, block unauthorized copy/paste across unmanaged applications).
 
-<br>
-
-**Verification Screenshot:**
-<br>
-<img src="02-mam-app-protection.png" alt="Intune MAM App Protection Policy" width="750" />
-
-<br>
 
 ### Step 2: Application Protection Policy (MAM)
 * **Policy Name:** `MAM - Windows Corporate App Protection`
@@ -90,7 +79,11 @@ A comprehensive enterprise lab environment built to demonstrate hands-on experti
 * **Join Type:** Microsoft Entra Joined
 
 <br>
+**Verification Screenshot:**
+<br>
+<img src="02-autopilot-profile.png" alt="Intune MAM App Protection Policy" width="750" />
 
+<br>
 
 ### 🛠️ Module 2 Troubleshooting Log
 
