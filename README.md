@@ -190,18 +190,22 @@ A comprehensive enterprise lab environment built to demonstrate hands-on experti
 
 ```powershell
 $CsvPath = "C:\Users\ramya\NewUsers.csv"
-$TenantDomain = (Get-MgDomain | Where-Object {$_.IsDefault} \vert{} Select-Object -ExpandProperty Id)$Group = Get-MgGroup -Filter "displayName eq 'GRP_SG_Remote_Workers'"
+$TenantDomain = (Get-MgDomain | Where-Object {$_.IsDefault} | Select-Object -ExpandProperty Id)
+$Group = Get-MgGroup -Filter "displayName eq 'GRP_SG_Remote_Workers'"
 
-Import-Csv -Path $CsvPath \vert{} ForEach-Object {$PasswordProfile = @{
+Import-Csv -Path $CsvPath | ForEach-Object {
+    $PasswordProfile = @{
         Password = "Password123!#Onboard2026"
         ForceChangePasswordNextSignIn = $true
     }
+
+    $UPN = "$($_.UserPrincipalName)@$TenantDomain"
 
     $UserParams = @{
         DisplayName       = $_.DisplayName
         GivenName         = $_.GivenName
         Surname           = $_.Surname
-        UserPrincipalName = "$($_.UserPrincipalName)@$TenantDomain"
+        UserPrincipalName = $UPN
         MailNickname      = $_.MailNickname
         Department        = $_.Department
         UsageLocation     = $_.UsageLocation
@@ -209,13 +213,14 @@ Import-Csv -Path $CsvPath \vert{} ForEach-Object {$PasswordProfile = @{
         PasswordProfile   = $PasswordProfile
     }
 
+    Write-Host "Creating bulk user: $($_.DisplayName)..." -ForegroundColor Cyan
     $NewUser = New-MgUser @UserParams
 
     if ($Group) {
-        New-MgGroupMember -GroupId $Group.Id -DirectoryObjectId$NewUser.Id
+        New-MgGroupMember -GroupId $Group.Id -DirectoryObjectId $NewUser.Id
+        Write-Host "Assigned $($_.DisplayName) to GRP_SG_Remote_Workers" -ForegroundColor Green
     }
 }
-
 **Verification Screenshot:**
 <br>
 <img src="02-intune-compliance-policy.png" alt="Intune Windows Compliance Policy" width="750" />
