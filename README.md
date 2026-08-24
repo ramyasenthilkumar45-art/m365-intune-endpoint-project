@@ -215,14 +215,3 @@ Import-Csv -Path $CsvPath \vert{} ForEach-Object {$PasswordProfile = @{
         New-MgGroupMember -GroupId $Group.Id -DirectoryObjectId$NewUser.Id
     }
 }
-
-** Verification Screenshot: **
-<br>
-<img src="05-bulk-user-onboard-script.png" alt="Intune MAM App Protection Policy" width="750" />
-
-<br>
-<br>
-<img src="05-bulk-user-onboard-proof.png" alt="Intune MAM App Protection Policy" width="750" />
-
-<br>
-  
