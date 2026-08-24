@@ -224,7 +224,7 @@ Import-Csv -Path $CsvPath | ForEach-Object {
 
 **Verification Screenshot:**
 <br>
-<img src="05-bulk-user-onboard-script.png" alt="Intune Windows Compliance Policy" width="750" />
+<img src="05-bulk-user-onboard-script.png" alt="Intune MAM App Protection Policy" width="750" />
 
 <br>
 
