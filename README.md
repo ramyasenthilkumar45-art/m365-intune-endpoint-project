@@ -221,9 +221,10 @@ Import-Csv -Path $CsvPath | ForEach-Object {
         Write-Host "Assigned $($_.DisplayName) to GRP_SG_Remote_Workers" -ForegroundColor Green
     }
 }
+
 **Verification Screenshot:**
 <br>
-<img src="02-intune-compliance-policy.png" alt="Intune Windows Compliance Policy" width="750" />
+<img src="05-bulk-user-onboard-script.png" alt="Intune Windows Compliance Policy" width="750" />
 
 <br>
 
