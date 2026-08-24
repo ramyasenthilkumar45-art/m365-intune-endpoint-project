@@ -187,7 +187,7 @@ A comprehensive enterprise lab environment built to demonstrate hands-on experti
 * **Technical Concept**: Leveraging Import-Csv and a ForEach-Object pipeline to automate multi-account creation safely, ensuring consistent metadata application across departments.
 
 * **PowerShell Command Executed:**
-```powershell
+ ```powershell
 $CsvPath = "C:\Users\ramya\NewUsers.csv"
 $TenantDomain = (Get-MgDomain | Where-Object {$_.IsDefault} | Select-Object -ExpandProperty Id)
 $Group = Get-MgGroup -Filter "displayName eq 'GRP_SG_Remote_Workers'"
