@@ -146,3 +146,36 @@ A comprehensive enterprise lab environment built to demonstrate hands-on experti
 <img src="03-User-onboard-proff.png" alt="Intune MAM App Protection Policy" width="750" />
 
 <br>
+### Step 2: Security Offboarding & Session Revocation
+* **Execution Goal:** Perform rapid security containment for departing personnel by revoking session access, stripping assigned entitlements, and disabling directory authentication while preserving data retention compliance.
+* **Technical Distinction (Disabling vs. Deleting):** Maintained the user object in Microsoft Entra ID with `AccountEnabled = $false` rather than deleting it. This ensures mailbox logs, file ownership, and audit trails remain accessible for eDiscovery while completely blocking sign-in capability.
+* **Session Containment:** Executed `Revoke-MgUserSignInSession` to immediately invalidate active OAuth2 refresh tokens, forcing an instant sign-out across all cached web apps, desktop clients, and mobile sessions.
+
+* **PowerShell Command Executed:**
+  ```powershell
+  $TargetUPN = "alex.rivera@$TenantDomain"
+  $TargetUser = Get-MgUser -Filter "userPrincipalName eq '$TargetUPN'"
+
+  if ($TargetUser) {
+      # 1. Block account sign-in capability
+      Update-MgUser -UserId $TargetUser.Id -AccountEnabled:$false
+
+      # 2. Instantly revoke active OAuth refresh tokens / client sessions
+      Revoke-MgUserSignInSession -UserId $TargetUser.Id | Out-Null
+
+      # 3. Strip role-based security group access
+      $Group = Get-MgGroup -Filter "displayName eq 'GRP_SG_Remote_Workers'"
+      if ($Group) {
+          Remove-MgGroupMemberByRef -GroupId $Group.Id -DirectoryObjectId$TargetUser.Id
+      }
+  }
+  <br>
+**Verification Screenshot:**
+<br>
+<img src="03-user-offboard-script.png" alt="Intune MAM App Protection Policy" width="750" />
+
+<br>
+<br>
+<img src="03-offboard-proff.png" alt="Intune MAM App Protection Policy" width="750" />
+
+<br>
