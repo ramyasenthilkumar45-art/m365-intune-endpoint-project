@@ -339,7 +339,7 @@ if ($VerifiedUser.AccountEnabled -eq$true) {
 } else {
     Write-Host "WARNING: Account is still disabled." -ForegroundColor Red
 }
-
+```
 **Verification Screenshots:**
 
 <br>
@@ -359,3 +359,8 @@ if ($VerifiedUser.AccountEnabled -eq$true) {
 <img src="06-ticket-01-powershell-remediation-success.png" alt="PowerShell Diagnostic and Remediation Output" width="750" />
 
 <br>
+
+<img src="06-ticket-01-powershell-remediation-success2.png" alt="PowerShell Diagnostic and Remediation Output" width="750" />
+
+<br>
+---
