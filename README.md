@@ -183,17 +183,16 @@ A comprehensive enterprise lab environment built to demonstrate hands-on experti
 <br>
 
 ### Step 3: Enterprise CSV Bulk User Provisioning
-* **Execution Goal:** Automate enterprise-scale onboarding by parsing an HR CSV data feed (NewUsers.csv), dynamically generating tenant-qualified UPNs, initializing temporary credentials, and mapping users into security groups.
-* **Technical Concept**: Leveraging Import-Csv and a ForEach-Object pipeline to automate multi-account creation safely, ensuring consistent metadata application across departments.
 
+* **Execution Goal:** Automate enterprise-scale onboarding by parsing an HR CSV data feed (`NewUsers.csv`), dynamically generating tenant-qualified UPNs, initializing temporary credentials, and mapping users into security groups.
+* **Technical Concept:** Leveraging `Import-Csv` and a `ForEach-Object` pipeline to automate multi-account creation safely, ensuring consistent metadata application across departments.
 * **PowerShell Command Executed:**
- ```powershell
-$CsvPath = "C:\Users\ramya\NewUsers.csv"
-$TenantDomain = (Get-MgDomain | Where-Object {$_.IsDefault} | Select-Object -ExpandProperty Id)
-$Group = Get-MgGroup -Filter "displayName eq 'GRP_SG_Remote_Workers'"
 
-Import-Csv -Path $CsvPath | ForEach-Object {
-    $PasswordProfile = @{
+```powershell
+$CsvPath = "C:\Users\ramya\NewUsers.csv"
+$TenantDomain = (Get-MgDomain | Where-Object {$_.IsDefault} \vert{} Select-Object -ExpandProperty Id)$Group = Get-MgGroup -Filter "displayName eq 'GRP_SG_Remote_Workers'"
+
+Import-Csv -Path $CsvPath \vert{} ForEach-Object {$PasswordProfile = @{
         Password = "Password123!#Onboard2026"
         ForceChangePasswordNextSignIn = $true
     }
@@ -213,7 +212,7 @@ Import-Csv -Path $CsvPath | ForEach-Object {
     $NewUser = New-MgUser @UserParams
 
     if ($Group) {
-        New-MgGroupMember -GroupId $Group.Id -DirectoryObjectId $NewUser.Id
+        New-MgGroupMember -GroupId $Group.Id -DirectoryObjectId$NewUser.Id
     }
 }
 
