@@ -233,7 +233,7 @@ Import-Csv -Path $CsvPath | ForEach-Object {
 <br>
 <img src="05-bulk-user-onboard-proof.png" alt="Intune MAM App Protection Policy" width="750" />
 
-<br
+<br>
 
 ---
 
