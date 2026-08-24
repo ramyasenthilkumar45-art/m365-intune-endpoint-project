@@ -108,6 +108,7 @@ A comprehensive enterprise lab environment built to demonstrate hands-on experti
 
 ### Step 1: Automated User Onboarding & Group Membership
 * **Execution Goal:** Automate account provisioning for new hire **Alex Rivera**, enforce forced password reset on initial sign-in, and automatically map role-based access control (RBAC) to security groups.
+* **Technical Concept:** Utilizing New-MgUser and New-MgGroupMember to eliminate manual administrative overhead during onboarding while maintaining zero-trust credential hygiene.
 * **PowerShell Command Executed:**
   ```powershell
   $TenantDomain = (Get-MgDomain \vert{} Where-Object {$_.IsDefault} | Select-Object -ExpandProperty Id)
@@ -146,8 +147,9 @@ A comprehensive enterprise lab environment built to demonstrate hands-on experti
 <img src="03-User-onboard-proff.png" alt="Intune MAM App Protection Policy" width="750" />
 
 <br>
-### Step 2: Security Offboarding & Session Revocation
-* **Execution Goal:** Perform rapid security containment for departing personnel by revoking session access, stripping assigned entitlements, and disabling directory authentication while preserving data retention compliance.
+
+### Step 2: Automated User Offboarding & Session Revocation
+* **Execution Goal:** Rapidly isolate departing user Alex Rivera by disabling sign-in, revoking active client sessions, and stripping security group memberships to prevent unauthorized corporate access.
 * **Technical Distinction (Disabling vs. Deleting):** Maintained the user object in Microsoft Entra ID with `AccountEnabled = $false` rather than deleting it. This ensures mailbox logs, file ownership, and audit trails remain accessible for eDiscovery while completely blocking sign-in capability.
 * **Session Containment:** Executed `Revoke-MgUserSignInSession` to immediately invalidate active OAuth2 refresh tokens, forcing an instant sign-out across all cached web apps, desktop clients, and mobile sessions.
 
@@ -179,3 +181,47 @@ A comprehensive enterprise lab environment built to demonstrate hands-on experti
 <img src="04-offboard-proof.png" alt="Intune MAM App Protection Policy" width="750" />
 
 <br>
+
+### Step 3: Enterprise CSV Bulk User Provisioning
+* **Execution Goal:** Automate enterprise-scale onboarding by parsing an HR CSV data feed (NewUsers.csv), dynamically generating tenant-qualified UPNs, initializing temporary credentials, and mapping users into security groups.
+* **Technical Concept**: Leveraging Import-Csv and a ForEach-Object pipeline to automate multi-account creation safely, ensuring consistent metadata application across departments.
+
+* **PowerShell Command Executed:**
+* $CsvPath = "C:\Users\ramya\NewUsers.csv"
+$TenantDomain = (Get-MgDomain | Where-Object {$_.IsDefault} | Select-Object -ExpandProperty Id)
+$Group = Get-MgGroup -Filter "displayName eq 'GRP_SG_Remote_Workers'"
+
+Import-Csv -Path $CsvPath | ForEach-Object {
+    $PasswordProfile = @{
+        Password = "Password123!#Onboard2026"
+        ForceChangePasswordNextSignIn = $true
+    }
+
+    $UserParams = @{
+        DisplayName       = $_.DisplayName
+        GivenName         = $_.GivenName
+        Surname           = $_.Surname
+        UserPrincipalName = "$($_.UserPrincipalName)@$TenantDomain"
+        MailNickname      = $_.MailNickname
+        Department        = $_.Department
+        UsageLocation     = $_.UsageLocation
+        AccountEnabled    = $true
+        PasswordProfile   = $PasswordProfile
+    }
+
+    $NewUser = New-MgUser @UserParams
+
+    if ($Group) {
+        New-MgGroupMember -GroupId $Group.Id -DirectoryObjectId $NewUser.Id
+    }
+}
+**Verification Screenshot:**
+<br>
+<img src=05-bulk-user-onboard-script.png" alt="Intune MAM App Protection Policy" width="750" />
+
+<br>
+<br>
+<img src="05-bulk-user-onboard-proof.png" alt="Intune MAM App Protection Policy" width="750" />
+
+<br>
+  
