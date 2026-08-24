@@ -283,4 +283,79 @@ Import-Csv -Path $CsvPath | ForEach-Object {
 <br>
 
 ---
+<br>
 
+---
+
+
+
+
+
+## Module 4: Tier 2 Helpdesk Incident Troubleshooting & Access Remediation
+
+* **Execution Goal:** Demonstrate root-cause analysis, ticket triage, and programmatic access restoration for disabled accounts in Microsoft Entra ID.
+* **Technical Concept:** Diagnosing sign-in failures via Entra ID logs, verifying account states using the Microsoft Graph PowerShell SDK, and executing automated remediation scripts to re-enable user access and invalidate stale session tokens.
+
+<br>
+
+---
+
+<br>
+
+### Ticket 01: Remote Employee Sign-In Block (Disabled Account Remediation)
+
+* **Ticket Summary:** `INC-90412` — Remote employee unable to authenticate or access Microsoft 365 cloud services.
+* **Reported Symptom:** User receives an authentication error during portal sign-in.
+* **Root Cause Analysis:** Inspected Entra ID user configuration and sign-in logs. Identified that the target account was administratively set to `Account status: Disabled` (`AccountEnabled = $false`), preventing successful token issuance.
+* **Remediation Script Executed:**
+
+```powershell
+# Step 1: Target User Definition
+$TargetUPN = "alex.rivera@Senthilkumar096.onmicrosoft.com"
+
+# Step 2: Diagnostic Check - Inspect Current Account Status
+$User = Get-MgUser -Filter "userPrincipalName eq '$TargetUPN'" -Property Id, DisplayName, AccountEnabled
+
+Write-Host "--- Pre-Remediation Check ---" -ForegroundColor Cyan
+Write-Host "Target User: $($User.DisplayName)" -ForegroundColor Yellow
+Write-Host "Account Enabled Status: $($User.AccountEnabled)" -ForegroundColor Red
+
+# Step 3: Remediation - Re-enable Account & Revoke Stale Sessions
+if ($User.AccountEnabled -eq$false) {
+    Write-Host "`nEnabling user account..." -ForegroundColor Cyan
+    Update-MgUser -UserId $User.Id -AccountEnabled:$true
+    
+    # Invalidate active refresh tokens to force fresh authentication
+    Revoke-MgUserSignInSession -UserId $User.Id | Out-Null
+    Write-Host "Session revocation issued for $($TargetUPN)" -ForegroundColor Green
+}
+
+# Step 4: Verification Check - Confirm Account Status is Restored
+$VerifiedUser = Get-MgUser -UserId $User.Id -Property AccountEnabled
+
+Write-Host "`n--- Post-Remediation Verification ---" -ForegroundColor Cyan
+if ($VerifiedUser.AccountEnabled -eq$true) {
+    Write-Host "SUCCESS: Account status for $($TargetUPN) is now ENABLED ($($VerifiedUser.AccountEnabled))." -ForegroundColor Green
+} else {
+    Write-Host "WARNING: Account is still disabled." -ForegroundColor Red
+}
+
+**Verification Screenshots:**
+
+<br>
+
+<img src="06-ticket-01-entra-disabled-account.png" alt="Entra ID User Account Disabled Status" width="750" />
+
+<br>
+
+<br>
+
+<img src="06-ticket-01-entra-sign-in-failure.png" alt="Entra ID Sign-in Log Diagnostic Verification" width="750" />
+
+<br>
+
+<br>
+
+<img src="06-ticket-01-powershell-remediation-success.png" alt="PowerShell Diagnostic and Remediation Output" width="750" />
+
+<br>
