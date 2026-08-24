@@ -237,3 +237,50 @@ Import-Csv -Path $CsvPath | ForEach-Object {
 
 ---
 
+<br>
+
+---
+
+<br>
+
+### 🛠️ Module 3: Troubleshooting Log
+
+<br>
+
+#### **Issue 04: Authentication Endpoint Misdirection (Personal vs. Work Account)**
+
+* **Symptom:** Running `Connect-MgGraph` opened a Microsoft account browser prompt targeting personal credentials. Inputting organizational administrator UPN `RamyaSenthilkumar@Senthilkumar096.onmicrosoft.com` threw the error: *"That Microsoft account doesn't exist"*.
+* **Root Cause:** The default Web Account Manager (WAM) interactive browser flow defaulted to Microsoft Consumer endpoints instead of Entra ID Enterprise endpoints.
+* **Resolution Path:**
+  1. Forced device authentication mode using `Connect-MgGraph -UseDeviceAuthentication`.
+  2. Completed device code authorization at `https://microsoft.com/devicelogin`.
+  3. Granted organizational admin consent for Microsoft Graph Command Line Tools.
+
+<br>
+
+---
+
+<br>
+
+#### **Issue 05: Active Token Expiration During Scope Authorization**
+
+* **Symptom:** Executing provisioning cmdlets (`Get-MgDomain`, `Get-MgGroup`) failed with `Get-MgGroup : Authentication needed. Please call Connect-MgGraph.`
+* **Root Cause:** Session token context timed out while approving delegated scopes (`User.ReadWrite.All`, `Directory.ReadWrite.All`) in the browser window.
+* **Resolution Path:** Re-authenticated using `Connect-MgGraph -UseDeviceAuthentication` and verified active session establishment via `Get-MgContext`.
+
+<br>
+
+---
+
+<br>
+
+#### **Issue 06: DirectoryNotFoundException on File Path Redirection**
+
+* **Symptom:** Executing `Import-Csv` threw `DirectoryNotFoundException` when referencing `C:\Users\ramya\Desktop\NewUsers.csv`.
+* **Root Cause:** Windows Known Folder Redirection and OneDrive synchronization modified the literal local Desktop folder path structure (`This PC\Windows\Family\Ramya\Project1`).
+* **Resolution Path:** Programmatically generated the source CSV at the user profile root (`C:\Users\ramya\NewUsers.csv`) using `Out-File` to enforce standard path resolution across automated scripts.
+
+<br>
+
+---
+
