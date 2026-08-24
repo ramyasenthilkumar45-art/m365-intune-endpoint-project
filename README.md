@@ -187,7 +187,8 @@ A comprehensive enterprise lab environment built to demonstrate hands-on experti
 * **Technical Concept**: Leveraging Import-Csv and a ForEach-Object pipeline to automate multi-account creation safely, ensuring consistent metadata application across departments.
 
 * **PowerShell Command Executed:**
-* $CsvPath = "C:\Users\ramya\NewUsers.csv"
+```powershell
+$CsvPath = "C:\Users\ramya\NewUsers.csv"
 $TenantDomain = (Get-MgDomain | Where-Object {$_.IsDefault} | Select-Object -ExpandProperty Id)
 $Group = Get-MgGroup -Filter "displayName eq 'GRP_SG_Remote_Workers'"
 
@@ -217,7 +218,7 @@ Import-Csv -Path $CsvPath | ForEach-Object {
 }
 **Verification Screenshot:**
 <br>
-<img src=05-bulk-user-onboard-script.png" alt="Intune MAM App Protection Policy" width="750" />
+<img src="05-bulk-user-onboard-script.png" alt="Intune MAM App Protection Policy" width="750" />
 
 <br>
 <br>
