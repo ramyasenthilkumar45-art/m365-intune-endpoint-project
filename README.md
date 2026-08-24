@@ -216,7 +216,9 @@ Import-Csv -Path $CsvPath | ForEach-Object {
         New-MgGroupMember -GroupId $Group.Id -DirectoryObjectId $NewUser.Id
     }
 }
-**Verification Screenshot:**
+
+  <br>
+** Verification Screenshot: **
 <br>
 <img src="05-bulk-user-onboard-script.png" alt="Intune MAM App Protection Policy" width="750" />
 
