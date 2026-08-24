@@ -176,6 +176,6 @@ A comprehensive enterprise lab environment built to demonstrate hands-on experti
 
 <br>
 <br>
-<img src="04-offboard-proff.png" alt="Intune MAM App Protection Policy" width="750" />
+<img src="04-offboard-proof.png" alt="Intune MAM App Protection Policy" width="750" />
 
 <br>
