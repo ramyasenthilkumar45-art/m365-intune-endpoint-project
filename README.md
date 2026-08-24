@@ -215,3 +215,10 @@ Import-Csv -Path $CsvPath \vert{} ForEach-Object {$PasswordProfile = @{
         New-MgGroupMember -GroupId $Group.Id -DirectoryObjectId$NewUser.Id
     }
 }
+
+**Verification Screenshot:**
+<br>
+<img src="02-intune-compliance-policy.png" alt="Intune Windows Compliance Policy" width="750" />
+
+<br>
+
