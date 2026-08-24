@@ -171,7 +171,7 @@ A comprehensive enterprise lab environment built to demonstrate hands-on experti
           Remove-MgGroupMemberByRef -GroupId $Group.Id -DirectoryObjectId$TargetUser.Id
       }
   }
-  <br>
+  
 **Verification Screenshot:**
 <br>
 <img src="04-user-offboard-script.png" alt="Intune MAM App Protection Policy" width="750" />
