@@ -102,3 +102,47 @@ A comprehensive enterprise lab environment built to demonstrate hands-on experti
   1. Set **Microsoft Defender Antimalware** to **Require**.
   2. Verified that **Real-time protection** and **Security intelligence up-to-date** toggles unlocked immediately.
   3. Enforced all child rules and successfully saved `POL - Windows 11 Security Baseline`.
+---
+
+## ⚡ Module 3: Programmatic Identity Lifecycle Management (PowerShell Automation)
+
+### Step 1: Automated User Onboarding & Group Membership
+* **Execution Goal:** Automate account provisioning for new hire **Alex Rivera**, enforce forced password reset on initial sign-in, and automatically map role-based access control (RBAC) to security groups.
+* **PowerShell Command Executed:**
+  ```powershell
+  $TenantDomain = (Get-MgDomain \vert{} Where-Object {$_.IsDefault} | Select-Object -ExpandProperty Id)
+
+  $PasswordProfile = @{
+      Password = "Password123!#Onboard2026"
+      ForceChangePasswordNextSignIn = $true
+  }
+
+  $UserParams = @{
+      DisplayName       = "Alex Rivera"
+      GivenName         = "Alex"
+      Surname           = "Rivera"
+      UserPrincipalName = "alex.rivera@$TenantDomain"
+      MailNickname      = "arivera"
+      AccountEnabled    = $true
+      PasswordProfile   = $PasswordProfile
+      UsageLocation     = "US"
+  }
+
+  $NewUser = New-MgUser @UserParams
+
+  $Group = Get-MgGroup -Filter "displayName eq 'GRP_SG_Remote_Workers'"
+  if ($Group) {
+      New-MgGroupMember -GroupId $Group.Id -DirectoryObjectId$NewUser.Id
+  }
+
+  
+<br>
+**Verification Screenshot:**
+<br>
+<img src="03-user-onboard-script.png" alt="Intune MAM App Protection Policy" width="750" />
+
+<br>
+<br>
+<img src="03-user-onboard-proof.png" alt="Intune MAM App Protection Policy" width="750" />
+
+<br>
