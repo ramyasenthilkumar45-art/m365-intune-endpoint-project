@@ -396,3 +396,47 @@ if ($User) {
 <img src="07-ticket-02-ca-mfa-reset.png" alt="MFA Bypass Remediation" width="750" />
 
 <br>
+
+<br>
+
+---
+
+<br>
+
+## Module 5: Automation & Scripting (Identity Lifecycle & Directory Auditing)
+
+* **Execution Goal:** Automate enterprise user inventory reporting, directory auditing, and administrative data exports using Microsoft Graph PowerShell.
+* **Technical Concept:** Querying Microsoft Graph user objects, filtering administrative attributes, piping structured directory data, and generating compliance CSV exports for security audits.
+
+<br>
+
+---
+
+<br>
+
+### Task 01: Automated Directory User Audit & CSV Export
+
+* **Scenario:** The IT Security and Compliance team requires an automated report of all directory user accounts, including their current account enabled status and account type, for routine access governance.
+* **Execution Logic:** Utilizes `Get-MgUser` to pull directory objects, projects targeted identity properties (`DisplayName`, `UserPrincipalName`, `AccountEnabled`, `UserType`), and exports the output to a structured CSV report.
+* **PowerShell Automation Script Executed:**
+
+```powershell
+# Automated Tenant User Audit & CSV Export
+Write-Host "Starting User Audit..." -ForegroundColor Cyan
+
+# Fetch directory users, select core identity attributes, and output formatted table
+Get-MgUser -All | Select-Object DisplayName, UserPrincipalName, AccountEnabled, UserType | Format-Table -AutoSize
+
+# Export directory dataset directly to administrative CSV report
+Get-MgUser -All | Select-Object DisplayName, UserPrincipalName, AccountEnabled, UserType | Export-Csv -Path "$env:USERPROFILE\Desktop\User_Audit.csv" -NoTypeInformation
+
+Write-Host "SUCCESS: Audit exported to Desktop as User_Audit.csv" -ForegroundColor Green
+
+```
+**Verification Screenshots:**
+
+<br>
+
+<img src="08-module-5-user-audit-script.png" alt="Audit and CSV report" width="750" />
+
+<br>
