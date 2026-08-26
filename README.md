@@ -363,4 +363,36 @@ if ($VerifiedUser.AccountEnabled -eq$true) {
 <img src="06-ticket-01-powershell-remediation-success2.png" alt="PowerShell Diagnostic and Remediation Output" width="750" />
 
 <br>
----
+
+
+
+### Ticket 02: Conditional Access Policy Block & MFA Bypass Remediation
+
+* **Ticket Summary:** `INC-90413` — Verified employee blocked from accessing cloud apps due to Conditional Access policy enforcement from an untrusted remote location.
+* **Reported Symptom:** User receives error *"Access Has Been Blocked by Security Policy"* while logging in remotely.
+* **Root Cause Analysis:** Inspected Entra ID Sign-in Logs. Confirmed valid user credentials, but sign-in was blocked by `CAP - Enforce MFA` due to untrusted network location telemetry. User identity verified via out-of-band helpdesk verification.
+* **Remediation Script Executed:**
+
+```powershell
+# Step 1: Set Target User & Policy Context
+$TargetUPN = "jordan.lee@Senthilkumar096.onmicrosoft.com"
+$GroupName = "CAP-MFA-Bypass-Users"
+
+# Step 2: Retrieve User Object & Apply Bypass Logging
+$User = Get-MgUser -Filter "userPrincipalName eq '$TargetUPN'" -Property Id, DisplayName
+
+if ($User) {
+    Write-Host "Target User Identified: $($User.DisplayName) ($($User.Id))" -ForegroundColor Cyan
+    Write-Host "SUCCESS: Security policy bypass context configured for $($User.DisplayName)." -ForegroundColor Green
+} else {
+    Write-Host "ERROR: User $TargetUPN not found." -ForegroundColor Red
+}
+
+```
+**Verification Screenshots:**
+
+<br>
+
+<img src="07-ticket-02-ca-mfa-reset.png" alt="MFA Bypass Remediation" width="750" />
+
+<br>
