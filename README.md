@@ -437,6 +437,6 @@ Write-Host "SUCCESS: Audit exported to Desktop as User_Audit.csv" -ForegroundCol
 
 <br>
 
-<img src="08-module-5-user-audit-script.png" alt="Audit and CSV report" width="750" />
+<img src="08-module-5-user-audit-script1.png" alt="Audit and CSV report" width="750" />
 
 <br>
