@@ -4,8 +4,17 @@
 A comprehensive enterprise lab environment built to demonstrate hands-on expertise in Microsoft 365 administration, Intune Modern Management, Hybrid Active Directory provisioning, and IT service desk workflows mapped directly to enterprise job requirements.
 
 ---
+### ## 🏗️ Core Architecture & Skills
+## 🔐 Module 1: Hybrid Identity & M365 Administration
+## 🛡️ Module 2: MDM & Endpoint Rollouts (Intune & Security)
+## ⚡ Module 3: Programmatic Identity Lifecycle Management (PowerShell Automation)
+## 🛠️ Module 4: Tier 2 Helpdesk Incident Troubleshooting & Access Remediation
+## 🛡️ Module 5: Automation & Scripting (Identity Lifecycle & Directory Auditing)
+##    Module 6: Hybrid Identity & Cloud Sync Project
 
-## 🏗️ Core Architecture & Skills
+
+
+
 * **Identity & Access Management:** Microsoft Entra ID (Azure AD), Hybrid Active Directory, RBAC, Conditional Access (MFA Enforce), Group-Based Licensing.
 * **Endpoint Management (MDM/MAM):** Microsoft Intune configuration, Compliance Policies, App Protection, and Windows Autopilot profiles.
 * **Automation & Scripting:** PowerShell scripts for user onboarding/offboarding and system monitoring.
@@ -178,7 +187,7 @@ A comprehensive enterprise lab environment built to demonstrate hands-on experti
 
 <br>
 <br>
-<img src="04-offboard-proof.png" alt="Intune MAM App Protection Policy" width="750" />
+<img src="04-offboard-proof.png" alt="Intune MAM App Protection Poolicy" width="750" />
 
 <br>
 
@@ -231,7 +240,7 @@ Import-Csv -Path $CsvPath | ForEach-Object {
 <br>
 
 <br>
-<img src="05-bulk-user-onboard-proof.png" alt="Intune MAM App Protection Policy" width="750" />
+<img src="05-bulk-user-onboard-proof.png" alt="Intune MAM App Protectionn Policy" width="750" />
 
 <br>
 
@@ -360,7 +369,7 @@ if ($VerifiedUser.AccountEnabled -eq$true) {
 
 <br>
 
-<img src="06-ticket-01-powershell-remediation-success2.png" alt="PowerShell Diagnostic and Remediation Output" width="750" />
+<img src="06-ticket-01-powershell-remediation-success2.png" alt="PowerShell Diagnostic and Remediaation Output" width="750" />
 
 <br>
 
@@ -440,3 +449,72 @@ Write-Host "SUCCESS: Audit exported to Desktop as User_Audit.csv" -ForegroundCol
 <img src="08-module-5-user-audit-script1.png" alt="Audit and CSV report" width="750" />
 
 <br>
+
+## Module 6: Hybrid Identity & Cloud Sync Project
+
+* **Execution Goal:** Build a complete enterprise hybrid identity lab by deploying an on-premises Windows Server Active Directory domain, configuring user accounts and OUs, and synchronizing them to Microsoft Entra ID using Microsoft Entra Connect and Password Hash Synchronization (PHS).
+* **Technical Concept:** Bridging on-premises Active Directory Domain Services (AD DS) infrastructure with cloud-managed Microsoft Entra ID to establish unified hybrid identity administration and seamless sign-in capabilities.
+
+---
+
+### Step 1: On-Premises Infrastructure & Active Directory Deployment
+* **Execution Goal:** Deploy a Windows Server 2022 virtual machine via Oracle VM VirtualBox and promote it to an Active Directory Domain Controller (`corp.local`).
+* **Technical Concept:** Establishing the foundational on-premises directory service architecture required for enterprise domain management and identity federation.
+* **PowerShell Command Executed:**
+  ```powershell
+  Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
+<br>
+  
+  **Verification Screenshots:**
+<img src="Add AD.png" alt="" width="750" />
+
+<br>
+
+### Step 2: Directory Population & Pilot User Configuration
+* **Execution Goal:** Create structural Organizational Units (OUs), security groups, and pilot test user accounts with realistic attributes within the on-premises directory.
+* **Technical Concept:** Structuring local directory objects to mirror enterprise organizational hierarchies prior to cloud synchronization.
+
+<br>
+  
+  **Verification Screenshots:**
+<img src="Adduser2AD.png" alt="" width="750" />
+<img src="Useradded.png" alt="" width="750" />
+
+<img src="OU-Sales.png" alt="" width="750" />
+
+<br>
+
+### Step 3: Microsoft Entra Connect & Password Hash Synchronization (PHS) Deployment
+* **Execution Goal:** Install and configure Microsoft Entra Connect on a domain-joined server, enabling Password Hash Synchronization (PHS) and custom OU filtering.
+* **Technical Concept:** Establishing a secure cryptographic bridge that replicates on-premises password hashes to Entra ID, allowing users to authenticate against cloud services using their corporate domain credentials.
+<br>
+  
+  **Verification Screenshots:**
+<img src="DL-Entraconnect.png" alt="" width="750" />
+
+<img src="Entraconnet-AD.png" alt="" width="750" />
+
+<br>
+
+### Step 4: Hybrid Directory Synchronization Verification
+* **Execution Goal:** Validate hybrid synchronization state programmatically using the Microsoft Graph PowerShell SDK in Azure Cloud Shell
+* **Technical Concept:** Querying cloud directory attributes to confirm that pilot accounts correctly inherit synchronization metadata (OnPremisesSyncEnabled = True).
+
+* **PowerShell Automation Script Executed:**
+
+```powershell
+
+Connect-MgGraph -Scopes "User.Read.All"
+Get-MgUser -All -Property DisplayName, UserPrincipalName, OnPremisesSyncEnabled | Select-Object DisplayName, UserPrincipalName, OnPremisesSyncEnabled
+
+```
+<br>
+  
+  **Verification Screenshots:**
+<img src="Powershell-Proof.png" alt="" width="750" />
+
+<br>
+
+
+
+
