@@ -4,21 +4,15 @@
 A comprehensive enterprise lab environment built to demonstrate hands-on expertise in Microsoft 365 administration, Intune Modern Management, Hybrid Active Directory provisioning, and IT service desk workflows mapped directly to enterprise job requirements.
 
 ---
-### ## 🏗️ Core Architecture & Skills
-## 🔐 Module 1: Hybrid Identity & M365 Administration
-## 🛡️ Module 2: MDM & Endpoint Rollouts (Intune & Security)
-## ⚡ Module 3: Programmatic Identity Lifecycle Management (PowerShell Automation)
-## 🛠️ Module 4: Tier 2 Helpdesk Incident Troubleshooting & Access Remediation
-## 🛡️ Module 5: Automation & Scripting (Identity Lifecycle & Directory Auditing)
-##    Module 6: Hybrid Identity & Cloud Sync Project
 
+## 🏗️ Core Architecture & Skills
 
-
-
-* **Identity & Access Management:** Microsoft Entra ID (Azure AD), Hybrid Active Directory, RBAC, Conditional Access (MFA Enforce), Group-Based Licensing.
-* **Endpoint Management (MDM/MAM):** Microsoft Intune configuration, Compliance Policies, App Protection, and Windows Autopilot profiles.
-* **Automation & Scripting:** PowerShell scripts for user onboarding/offboarding and system monitoring.
-* **IT Infrastructure & Virtualization:** Windows Server administration, Hyper-V, networking fundamentals, and backup validation.
+* 🔒 **Module 1: Hybrid Identity & M365 Administration:** Microsoft Entra ID (Azure AD), Hybrid Active Directory, RBAC, Conditional Access (MFA Enforce), Group-Based Licensing.
+* 🛡️ **Module 2: MDM & Endpoint Rollouts (Intune & Security):** Microsoft Intune configuration, Compliance Policies, App Protection, and Windows Autopilot profiles.
+* ⚡ **Module 3: Programmatic Identity Lifecycle Management (PowerShell Automation):** PowerShell scripts for user onboarding/offboarding, bulk provisioning, and session revocation.
+* 🛠️ **Module 4: Tier 2 Helpdesk Incident Troubleshooting & Access Remediation:** Root-cause analysis, ticket triage, and programmatic access restoration for disabled accounts.
+* 🛡️ **Module 5: Automation & Scripting (Identity Lifecycle & Directory Auditing):** Automated enterprise user inventory reporting, directory auditing, and administrative data exports.
+* 🌐 **Module 6: Hybrid Identity & Cloud Sync Project:** On-premises Windows Server Active Directory deployment, Microsoft Entra Connect configuration, Password Hash Synchronization (PHS), and OU filtering.
 
 ---
 
@@ -515,6 +509,32 @@ Get-MgUser -All -Property DisplayName, UserPrincipalName, OnPremisesSyncEnabled 
 
 <br>
 
+
+### 🛠️ Module 6 Troubleshooting Log
+
+#### Issue 07: PowerShell Module Installation Timeouts & Path Errors on Domain Controller
+
+* **Symptom:** Local attempts to install and import Microsoft.Graph modules directly on the Windows Server domain controller failed due to PowerShell Gallery connection timeouts and restrictive execution policies.
+* **Root Cause:** Strict server baseline security configurations and lack of direct external internet gallery access from the local virtual machine environment.
+* **Resolution Path:** Bypassed local environment constraints by initializing Azure Cloud Shell, which provides pre-authenticated access and eliminates local gallery configuration overhead.
+
+
+<br>
+
+#### Issue 08: PowerShell Module Installation Timeouts & Path Errors on Domain Controller
+
+* **Symptom:** Executing Import-Module Microsoft.Graph -Scope CurrentUser threw a ParameterBindingValidationException.
+* **Root Cause:** The -Scope parameter is invalid for the Import-Module cmdlet (it is supported by Install-Module, whereas Import-Module does not accept scope restrictions in that manner).
+* **Resolution Path:** Corrected script syntax by separating installation and loading phases: utilizing Install-Module for scope parameters and standard Import-Module without invalid arguments.
+
+<br>
+
+#### Issue 09: PowerShell Module Installation Timeouts & Path Errors on Domain Controller
+
+* **Symptom:** Initial user queries returned blank attribute values for synchronization status when querying $_.OnpremisesSyncEnable.
+* **Root Cause:** Minor typo in property naming (OnpremisesSyncEnable was missing the trailing 'd' and standard camel case formatting).
+* **Resolution Path:** Standardized property selection on the correct Microsoft Graph schema attribute name: OnPremisesSyncEnabled, successfully confirming directory synchronization (True) across all pilot user objects.
+<br>
 
 
 
