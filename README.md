@@ -184,6 +184,7 @@ A comprehensive enterprise lab environment built to demonstrate hands-on experti
 <img src="04-offboard-proof.png" alt="Intune MAM App Protection Poolicy" width="750" />
 
 <br>
+´´´
 
 ### Step 3: Enterprise CSV Bulk User Provisioning
 
@@ -471,6 +472,7 @@ Write-Host "SUCCESS: Audit exported to Desktop as User_Audit.csv" -ForegroundCol
 <br>
   
   **Verification Screenshots:**
+  <br>
 <img src="Adduser2AD.png" alt="" width="750" />
 <img src="Useradded.png" alt="" width="750" />
 
@@ -484,6 +486,7 @@ Write-Host "SUCCESS: Audit exported to Desktop as User_Audit.csv" -ForegroundCol
 <br>
   
   **Verification Screenshots:**
+  <br>
 <img src="DL-Entraconnect.png" alt="" width="750" />
 
 <img src="Entraconnet-AD.png" alt="" width="750" />
@@ -505,6 +508,7 @@ Get-MgUser -All -Property DisplayName, UserPrincipalName, OnPremisesSyncEnabled 
 <br>
   
   **Verification Screenshots:**
+  <br>
 <img src="Powershell-Proof.png" alt="" width="750" />
 
 <br>
