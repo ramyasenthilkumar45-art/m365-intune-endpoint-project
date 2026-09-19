@@ -542,3 +542,25 @@ Get-MgUser -All -Property DisplayName, UserPrincipalName, OnPremisesSyncEnabled 
 
 
 
+
+
+<br>
+
+## ⚡ Module 7: Hybrid File Servers & SharePoint Server Integration
+
+### Step 1: Directory Population & Pilot User Configuration
+* **Execution Goal:** Install the File Server role on your Windows Server 2022 VM, create a structured local folder, and share it with appropriate Active Directory permissions.
+* **Technical Concept:Deploying foundational file storage services on your Windows Server domain controller/member server and mapping access control to your corp.local security groups.
+<br>
+  
+  **Verification Screenshots:**
+  <br>
+<img src="Adduser2AD.png" alt="" width="750" />
+<img src="Useradded.png" alt="" width="750" />
+
+<img src="OU-Sales.png" alt="" width="750" />
+
+<br>
+
+
+
