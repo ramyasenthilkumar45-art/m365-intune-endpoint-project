@@ -525,7 +525,7 @@ Get-MgUser -All -Property DisplayName, UserPrincipalName, OnPremisesSyncEnabled 
 
 <br>
 
-#### Issue 08: PowerShell Module Installation Timeouts & Path Errors on Domain Controller
+#### Issue 08: Import-Module ParameterBindingValidationException
 
 * **Symptom:** Executing Import-Module Microsoft.Graph -Scope CurrentUser threw a ParameterBindingValidationException.
 * **Root Cause:** The -Scope parameter is invalid for the Import-Module cmdlet (it is supported by Install-Module, whereas Import-Module does not accept scope restrictions in that manner).
@@ -533,7 +533,7 @@ Get-MgUser -All -Property DisplayName, UserPrincipalName, OnPremisesSyncEnabled 
 
 <br>
 
-#### Issue 09: PowerShell Module Installation Timeouts & Path Errors on Domain Controller
+#### Issue 09: Microsoft Graph Sync Attribute Naming Typo
 
 * **Symptom:** Initial user queries returned blank attribute values for synchronization status when querying $_.OnpremisesSyncEnable.
 * **Root Cause:** Minor typo in property naming (OnpremisesSyncEnable was missing the trailing 'd' and standard camel case formatting).
